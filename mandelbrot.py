@@ -1,4 +1,4 @@
-
+import numpy as np
 #   PART !
 def get_escape_time(c: complex, max_iterations: int) -> int | None:
     """
@@ -15,14 +15,7 @@ def get_escape_time(c: complex, max_iterations: int) -> int | None:
             return i #return iterations before escaping
     return None #if no escape, return none
 
-print(get_escape_time(2+1j, 5))
-print(get_escape_time(1+1j, 10))
-print(get_escape_time(0.5+0.5j, 3))
-print(get_escape_time(0.5+0.5j, 4))
-print(get_escape_time(0.38+0.25j, 100))
-
-#outputs: 0, 1 , none, ****none****, 56
-
+#PART 2
 def get_complex_grid(top_left: complex, bottom_right: complex, step: float) -> np.ndarray:
     """
         Author: Santiago Otoya
@@ -45,3 +38,31 @@ def get_complex_grid(top_left: complex, bottom_right: complex, step: float) -> n
     final_complex_grid = 1j * grid_imag_vals + grid_real_vals
 
     return final_complex_grid
+
+#PART 3
+def get_escape_time_color_arr(
+    c_arr: np.ndarray,
+    max_iterations: int
+    ) -> np.ndarray:
+    """
+    Author: Logan Mitchell
+    param: c_arr (np.array)
+    param max_iterations: (int)
+    return: a value that normalizes the greyscale
+    initializes an array, checks for points that have escaped, then returns
+    the normalized greyscale, which can be used to plot a mandelbrot set
+    """
+    #initialize arrays that we will alter below based on escape times
+    z = np.copy(c_arr)
+    escape_time = np.empty(c_arr.shape, dtype=int)
+    escape_time.fill(max_iterations + 1)
+    #remaining = points that have not escaped
+    remaining = np.ones(c_arr.shape, dtype=bool)
+    #checks and records value that are escaping
+    for i in range(1, max_iterations + 1):
+        z[remaining] = z[remaining] * z[remaining] + c_arr[remaining]
+        escaped_points = np.abs(z) > 2
+        escape_time[escaped_points & remaining] = i
+        remaining[escaped_points] = False
+
+    return (max_iterations - escape_time + 1) / (max_iterations + 1)
