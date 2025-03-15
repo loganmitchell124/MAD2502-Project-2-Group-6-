@@ -1,5 +1,5 @@
 import numpy as np
-#   PART !
+#   PART 1
 def get_escape_time(c: complex, max_iterations: int) -> int | None:
     """
     author: Logan Mitchell
