@@ -66,3 +66,28 @@ def get_escape_time_color_arr(
         remaining[escaped_points] = False
 
     return (max_iterations - escape_time + 1) / (max_iterations + 1)
+
+#PART 4
+def get_julia_color_arr(
+        c_arr: np.ndarray,
+        c: complex,
+        max_iterations: int
+) -> np.ndarray:
+    """
+    Author: Timothy Streetman
+    param: c_arr (np.array)
+    param: c (complex)
+    param max_iterations: (int)
+    return: a julia set
+    """
+    z = np.copy(c_arr)
+    julia = np.empty(c_arr.shape, dtype=int)
+    julia.fill(max_iterations + 1)
+    remaining = np.ones(c_arr.shape, dtype=bool)
+    for i in range(1, max_iterations + 1):
+        z[remaining] = z[remaining] * z[remaining] + c
+        escaped_points = np.abs(z) > 2
+        julia[escaped_points & remaining] = i
+        remaining[escaped_points] = False
+
+    return (max_iterations - julia + 1) / (max_iterations + 1)
