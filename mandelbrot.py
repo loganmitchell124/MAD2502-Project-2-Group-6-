@@ -23,8 +23,7 @@ print(get_escape_time(0.38+0.25j, 100))
 
 #outputs: 0, 1 , none, ****none****, 56
 
-def get_complex_grid(top_left: complex, bottom_right: complex, step: float
-) -> np.ndarray:
+def get_complex_grid(top_left: complex, bottom_right: complex, step: float) -> np.ndarray:
     """
         Author: Santiago Otoya
         This function will compute a grid of complex numbers representing a grid for the Mandelbrot set
