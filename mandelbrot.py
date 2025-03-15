@@ -78,13 +78,13 @@ def get_julia_color_arr(
     param: c_arr (np.array)
     param: c (complex)
     param max_iterations: (int)
-    return: a julia set
+    return: a julia set that can be plotted visually
     """
-    z = np.copy(c_arr)
+    z = np.copy(c_arr) #get complex grid
     julia = np.empty(c_arr.shape, dtype=int)
     julia.fill(max_iterations + 1)
-    remaining = np.ones(c_arr.shape, dtype=bool)
-    for i in range(1, max_iterations + 1):
+    remaining = np.ones(c_arr.shape, dtype=bool) #boolean for which ones havent escaped
+    for i in range(1, max_iterations + 1): #iterate tgrough escape time calculations
         z[remaining] = z[remaining] * z[remaining] + c
         escaped_points = np.abs(z) > 2
         julia[escaped_points & remaining] = i
